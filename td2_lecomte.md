@@ -222,7 +222,57 @@ SELECT first_name, last_name FROM sakila.actor LIMIT 5;
 ```
 ![Capture](https://user-images.githubusercontent.com/72377954/142844630-28c0f3e8-787c-4aa3-991a-d3e8d0350c7b.PNG)
 
+#### Question 8I
+Les bases de données gérées par le serveur sont :
+* information_schema
+* mysql
+* performance_schema
+* sakila
+* worlddb
+
+#### Question 8J
+On supprime premièrement l'entièreté de la base de données :
+```sql
+DROP DATABASE sakila;
+```
+Par la suite on vérifie que sakila n'existe plus :
+```sql
+SHOW DATABASES;
+```
+![Capture](https://user-images.githubusercontent.com/72377954/142845273-4cb9a10f-cf94-4fcd-a129-71421bc827ae.PNG)
+
+
 ### 9- Gestion des comptes et accès
+#### Question 9A
+S'il y a des failles de sécurité dans l'application web, un attaquant pourrait se connecter de n'importe où en prenant l'apparence de root sans mot de passe. Ainsi, toutes les données lui seraient accessibles :
+* mots de passe
+* logins
+* données personnelles ou sensibles
+
+En bref, toutes les informations de tous les utilisateurs de l'application.
+
+#### Question 9B
+L'injection SQL est la plus courante et la plus facile des attaques possibles sur un système.
+Elle consiste en la modification d'une requête déjà présente via une zone de texte dans une application web par exemple. 
+En ajoutant des guillements sur une requête mal formée, on peut changer son comportement en la continuant dans la zone de texte.
+
+#### Question 9C
+```sql
+CREATE USER worlddbuser@'localhost';
+```
+**NOTA BENE** : On peut définir un mot de passe à cet utilisateur en ajoutant la directive IDENTIFIED BY !
+
+#### Question 9D
+```sql
+GRANT ALL PRIVILEGES ON worlddb.* TO worlddbuser@'localhost';
+```
+**NOTA BENE** : On peut définir un mot de passe lors de la connexion en ajoutant la directive IDENTIFIED BY !
+
+#### Question 9E
+```sql
+SHOW GRANTS FOR 'worlddbuser'@'localhost';
+```
+![Capture](https://user-images.githubusercontent.com/72377954/142847595-71c6aa61-a6dc-43f3-b4ea-68bf20cac729.PNG)
 
 ### 10- Sauvegarde et restauration
  
