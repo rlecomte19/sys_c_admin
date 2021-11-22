@@ -274,6 +274,38 @@ SHOW GRANTS FOR 'worlddbuser'@'localhost';
 ```
 ![Capture](https://user-images.githubusercontent.com/72377954/142847595-71c6aa61-a6dc-43f3-b4ea-68bf20cac729.PNG)
 
+#### Question 9F
+La commande ***FLUSH PRIVILEGES*** permet de recharger la table des droits dans mysql. Cela permet une affectation définitive des droits que nous venons de mettre en place.
+
+#### Question 9G
+Nous pouvons prouver que les accès ont bien marché en se connectant à mysql via cet utilistateur et en affichant les bases de données auxquelles il a accès.
+```bash
+echo "SHOW DATABASES;" | mysql -u worlddbuser
+```
+On obtient bien seulement les bases : 
+* information_schema
+* worlddb
+
+#### Question 9H
+Les tables accessibles sont... toutes ! En effet, nous avons donné tous les droits à notre utilisateur.
+```sql
+SHOW TABLES FROM worlddb;
+```
+Si l'utilisateur n'avait pas les droits sur ces tables, elles n'appraîtraient même pas.
+
+#### Question 9I
+La commande REVOKE permet de révoquer des droits.
+On aurait pu par exemple enlever tous les droits précédemment donnés : 
+```sql
+REVOKE ALL PRIVILEGES ON worlddb.* FROM worlddbuser@'localhost';
+```
+
+#### Question 9J
+Ce script est un script PERL interractif permettant de gérer les permissions dans les tables grant de mysql.
+
+#### Question 9K
+Le script mysqlaccess 
+
 ### 10- Sauvegarde et restauration
  
 ### 11- Outils graphiques
