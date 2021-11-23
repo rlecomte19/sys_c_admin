@@ -327,13 +327,46 @@ SELECT population FROM country;
 Cette requête nous renvoie, en toute logique, seulement des 10.
 
 #### Question 10C
-Afin de créer une sauvegarde de la base de données ***worlddb*** j'ai créé un dossier spécifique pour toutes les sauvegardes _/var/lib/mysql/backup/dump_scripts_.
+Afin de créer une sauvegarde de la base de données ***worlddb*** j'ai créé un dossier spécifique pour toutes les sauvegardes _ /var/lib/mysql/backup/dump_scripts _.
 Par la suite, il suffit d'utiliser la commande mysqldump : 
 ```bash
 cd /var/lib/mysql/backup/dump_scripts
 mysqldump -prootMysql worlddb > dump-worlddb.sql
 ```
-### 11- Outils graphiques
+
+#### Question 10D
+La commande permettant la restauration d'une base de données est la suivante :
+```bash
+mysql -prootMysql < /var/lib/mysql/backup/dump_script/dump-worlddb.sql
+```
+
+#### Question 10E
+Une sauvegarde logique consiste en copier les données présentes dans la base en question. Cela se fait par des requêtes SQL contenues généralement dans un script (CREATE, INSERT...).
+
+#### Question 10F
+Les sauvegardes physiques principales sont les sauvegardes :
+* complètes
+* incrémentales
+* différentielles
+* miroirs
+
+#### Question 10G
+La commande _mariabackup_ permet aussi de restaurer des bases de données.
+
+#### Question 10H
+La sauvegarde incrémentale est celle qui est proposée dans l'exemple de ce lien.
+
+#### Question 10I
+Les avantages d'une sauvegarde de ce type sont :
+* le gain de temps
+* le gain d'espace
+
+#### Question 10J
+Le problème avec ce type de sauvegardes est que la restauration prend plus de temps du fait qu'il y ait un besoin de restaurer la sauvegarde complète précédente avant l'incrémentale.
+
+### 11- Outils graphiques 
+#### Question 11A
+L'intérêt d'une connexion par tunnel SSH à un service mariadb est le gain de flexibilité. En effet, il est ainsi possible de travailler avec des outils plus "user-friendly", de partout, en tout temps. Ainsi, on pourrait utiliser des interfaces graphiques pour son serveur et la gestion de ses bases sous Windows par exemple. Le tunnel SSH est par ailleurs bien plus sécurisé que d'autres services. L'intégrité des données est donc en jeu.
 
 ### 12- Réplication comme solution de sauvegarde ?
 
