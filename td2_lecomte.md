@@ -304,10 +304,37 @@ REVOKE ALL PRIVILEGES ON worlddb.* FROM worlddbuser@'localhost';
 Ce script est un script PERL interractif permettant de gérer les permissions dans les tables grant de mysql.
 
 #### Question 9K
-Le script mysqlaccess 
+Le script mysqlaccess est un outil permettant de vérifier les privilèges donnés à un nom d'hôte, à un nom d'utilisateur ou à une base de données.
 
 ### 10- Sauvegarde et restauration
- 
+#### Question 10A
+Les principaux dangers liés à une mauvaise sécurité dans la gestion des bases de données sont : 
+* l'accès à des données qui ne sont pas censées être divulguées (personnelles ou sensibles) par excès, abus ou élévation de privilèges
+* la modification de données menant à une intégrité nulle de ces dernières
+* l'accès à des zones du systèmes sensibles
+* l'accès à des sauvegardes critiques
+
+#### Question 10B
+Afin de modifier la population de chaque pays on utilise : 
+```sql
+UPDATE country SET population = 10;
+```
+On peut vérifier le bon fonctionnement en utilisant :
+
+```sql
+SELECT population FROM country;
+```
+Cette requête nous renvoie, en toute logique, seulement des 10.
+
+#### Question 10C
+Afin de créer une sauvegarde de la base de données ***worlddb*** j'ai créé un dossier spécifique pour toutes les sauvegardes _/var/lib/mysql/backup/dump_scripts_.
+Par la suite, il suffit d'utiliser la commande mysqldump : 
+```bash
+cd /var/lib/mysql/backup/dump_scripts
+mysqldump -prootMysql worlddb > dump-worlddb.sql
+```
+Vous trouverez ci-dessous le script ainsi créé :
+
 ### 11- Outils graphiques
 
 ### 12- Réplication comme solution de sauvegarde ?
