@@ -403,8 +403,10 @@ mysql -prootMysql
 ```
 ```sql 
 GRANT ALL PRIVILEGES ON *.* TO root@192.168.100.184 IDENTIFIED BY 'rootMysql' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+SHOW MASTER STATUS;
 ```
-
+![Capture](https://user-images.githubusercontent.com/72377954/143237973-ceb88149-f867-446a-bf96-8622eaea1f3c.PNG)
 
 
 
