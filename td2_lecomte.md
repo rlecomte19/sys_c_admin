@@ -369,6 +369,19 @@ Le problème avec ce type de sauvegardes est que la restauration prend plus de t
 L'intérêt d'une connexion par tunnel SSH à un service mariadb est le gain de flexibilité. En effet, il est ainsi possible de travailler avec des outils plus "user-friendly", de partout, en tout temps. Ainsi, on pourrait utiliser des interfaces graphiques pour son serveur et la gestion de ses bases sous Windows par exemple. Le tunnel SSH est par ailleurs bien plus sécurisé que d'autres services. L'intégrité des données est donc en jeu.
 
 ### 12- Réplication comme solution de sauvegarde ?
+#### Question 12A
+Les limites de la réplication sont : 
+* le  fait que la réplication seule n'est pas suffisante pour gérer les sauvegardes
+* le fait que la réplication ne protège pas de la perte de donnée car tout est repliquée depuis la machine primaire (DELETE,DROP...)
+* le fait qu'il soit nécessaire de mettre en place des protocoles sécurisés quant à la synchronisation des données afin d'éviter une perte de ces dernières
+
+#### Question 12B
+La réplication est utilisée dans la plupart des cas pour :
+* protéger les données en cas de panne physique ou de données compromises : assurer un service constant (haute disponibilité)
+* accélérer l'accès aux données (plusieurs mêmes données dans plusieurs pays différents)
+* améliorer les performances des serveurs (rediriger les requêtes sur les différentes répliques pour soulager le maître)
+
+
 
 ### 13- Pour aller plus loin
 
