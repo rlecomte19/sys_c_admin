@@ -381,6 +381,31 @@ La réplication est utilisée dans la plupart des cas pour :
 * accélérer l'accès aux données (plusieurs mêmes données dans plusieurs pays différents)
 * améliorer les performances des serveurs (rediriger les requêtes sur les différentes répliques pour soulager le maître)
 
+#### Création d'une nouvelle VM dite "esclave" et paramétrages
+Une fois la machine virtuelle créée et lancée sur le bon VLAN, j'ai tout d'abord installé mariadb.
+```bash
+dnf install mariadb-server
+systemctl start mariadb # on lance le service
+systemctl status mariadb # on vérifie l'état du service : ACTIVE
+```
+Une fois le service installé, comme le demande le sujet du TP, j'ai ping ma machine "maître" et testé la connexion à son service : 
+```bash
+#IP MACHINE ESCLAVE : 192.168.100.184
+ping 192.168.100.183 # les paquets sont bien échangés
+mysql --host 192.168.100.183 -prootMysql # n'a pas les accès de connexion car il n'y a pas encore de compte distant autorisé via GRANT dans les tables.
+```
+Par la suite, j'ai créé le fichier de paramétrage _ /etc/my.cnf.d/server.cnf _ (cf. ci-dessous).
+![Capture](https://user-images.githubusercontent.com/72377954/143235615-ce0ea6bf-c06a-4f8f-804c-081aab85caff.PNG)
+Puis redémarrer le service mariadb et créé des droits pour l'esclave
+```bash
+systemctl restart mariadb
+mysql -prootMysql
+```
+```sql 
+GRANT ALL PRIVILEGES ON *.* TO root@192.168.100.184 IDENTIFIED BY 'rootMysql' WITH GRANT OPTION;
+```
+
+
 
 
 ### 13- Pour aller plus loin
