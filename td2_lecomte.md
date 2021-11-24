@@ -408,7 +408,29 @@ SHOW MASTER STATUS;
 ```
 ![Capture](https://user-images.githubusercontent.com/72377954/143237973-ceb88149-f867-446a-bf96-8622eaea1f3c.PNG)
 
+Finalement, j'ai configuré ma machine esclave : 
+```bash
+vim /etc/my.cnf.d/server.cnf
+============================
+[mariadb]
+server-id=101
+read_only=on
+#replicate-do-db=worlddb
+============================
 
+systemctl restart mariadb
+```
+On se connecte ensuite à la console mysql pour activer l'esclave :
+```sql
+CHANGE MASTER TO MASTER_HOST = 'IPMASTER', 
+MASTER_USER = 'root',
+MASTER_PASSWORD = 'rootMysql',
+MASTER_LOG_FILE = 'mariadb-bin.000001',
+MASTER_LOG_POS = 333;
+
+START SLAVE; #Lance la synchronisation de l'esclave
+SHOW SLAVE STATUS\G; #Affiche le statut propre de l'esclave
+```
 
 ### 13- Pour aller plus loin
 
