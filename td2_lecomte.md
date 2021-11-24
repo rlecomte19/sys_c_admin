@@ -395,7 +395,9 @@ ping 192.168.100.183 # les paquets sont bien échangés
 mysql --host 192.168.100.183 -prootMysql # n'a pas les accès de connexion car il n'y a pas encore de compte distant autorisé via GRANT dans les tables.
 ```
 Par la suite, j'ai créé le fichier de paramétrage _ /etc/my.cnf.d/server.cnf _ (cf. ci-dessous).
+
 ![Capture](https://user-images.githubusercontent.com/72377954/143235615-ce0ea6bf-c06a-4f8f-804c-081aab85caff.PNG)
+
 Puis redémarrer le service mariadb et créé des droits pour l'esclave
 ```bash
 systemctl restart mariadb
@@ -431,6 +433,3 @@ MASTER_LOG_POS = 333;
 START SLAVE; #Lance la synchronisation de l'esclave
 SHOW SLAVE STATUS\G; #Affiche le statut propre de l'esclave
 ```
-
-### 13- Pour aller plus loin
-
