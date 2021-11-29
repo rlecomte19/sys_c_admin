@@ -140,12 +140,25 @@ Voici le rôle de chacune des commandes :
 ![Capture](https://user-images.githubusercontent.com/72377954/143847027-5baaf654-470a-4a6c-ad13-2c44ac28cb6e.PNG)
 
 #### \[Question 7I\]
+L'option ***-B*** permet de définir le "backingstore". Cela correspond au chemin de sauvegarde du conteneur.
 
 #### \[Question 7J\]
+Le fichier _/etc/lxc/default.conf_ sert à définir la localisation de la virtualisation par défaut. 
+
 #### \[Question 7K\]
+Le conteneur déployé est situé dans /var/lib/lxc/centos.
+
+#### \[Question 7L\]
+Le répertoire ***config*** contient la configuration par défaut du conteneur concernant : virtualisation, nom, chemins des dépendances.
+
 #### \[Question 7M\]
+Le répertoire ***rootfs*** contient, quant-à-lui, les fichiers du conteneur en lui-même. On y retrouve un répertoire personnel, les dossiers connus /etc /lib /sbin /tmp /usr /var, et bien d'autres. C'est en soit ici que le système virtuel est stocké.
+
 #### \[Question 7N\]
+L'interface ***virbr0*** est comme un commutateur virtuel installé par libvirt. C'est à lui que vont se connecter toutes les VM.
+
 #### \[Question 7O\]
+
 #### \[Question 7P\]
 #### \[Question 7Q\]
 #### \[Question 7R\]
