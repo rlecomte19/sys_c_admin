@@ -155,13 +155,39 @@ Le répertoire ***config*** contient la configuration par défaut du conteneur c
 Le répertoire ***rootfs*** contient, quant-à-lui, les fichiers du conteneur en lui-même. On y retrouve un répertoire personnel, les dossiers connus /etc /lib /sbin /tmp /usr /var, et bien d'autres. C'est en soit ici que le système virtuel est stocké.
 
 #### \[Question 7N\]
-L'interface ***virbr0*** est comme un commutateur virtuel installé par libvirt. C'est à lui que vont se connecter toutes les VM.
+L'interface ***virbr0*** est comme un commutateur virtuel installé par libvirt. C'est à lui que vont se connecter tous les conteneurs.
 
 #### \[Question 7O\]
+Les interfaces veth sont des périphériques Ethernet virtuels. En effet, ils agissent comme une sorte de pont entre la VM et les conteneurs.
 
 #### \[Question 7P\]
+La commande lxc-attach permet de lancer une commande à partir d'un conteneur. On peut donc lui demande de lancer la commande passwd. 
+Soit : 
+```bash
+lxc-attach centos passwd
+
+New password : test123
+Retype password : test123
+```
+
 #### \[Question 7Q\]
+La première façon de se connecter est d'utiliser la commande prévue par lxc, à savoir :
+```bash
+lxc-attach -n centos
+```
+
+On peut aussi utiliser :
+```bash
+chroot /var/lib/lxc/centos/rootfs/ /bin/bash
+```
+Ceci change le répertoire par défaut du Shell utilisé. Ainsi, on travail dans le conteneur en faisant abstraction de tout le reste.
+
 #### \[Question 7R\]
+```bash
+lxc-attach -n centos
+sh-4.2# ip a 
+```
+L'addresse 
 #### \[Question 7S\]
 #### \[Question 7T\]
 
