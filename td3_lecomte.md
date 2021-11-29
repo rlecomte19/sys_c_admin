@@ -1,5 +1,6 @@
 
 11371 HTTK : Port fermé ==> ? désactiver la signature 
+option pour enlever les signatures ?
 # TD3 - LXC - DOCKER
 ### 1- Récupérer et configurer une VM
 > Fait sur machine
@@ -50,13 +51,45 @@ Les conteneurs existants les plus populaires sont :
 * Linux-VServer
 
 ### 6- Installation et prise en main de LXC
+On installe d'abord tous les outils nécessaires : 
+```bash
+dnf install wget epel-release lxc lxc-templates libvirt lxc-extra
+```
+On vérifie ensuite le statut de la configuration LXC
+```bash
+lxc-checkconfig # les différents points : control groups, misc, checkpoint, restore sont bien actifs 
+```
 
+#### \[Question 6A\]
+```bash
+systemctl start libvirtd
+systemctl status libvirtd # le service est bien actif
+```
+Le service ***libvirtd*** est un "daemon" côté serveur. Il est utile pour la gestion et la création de platerformes de virtualisation.
+
+#### \[Question 6B\]
+```bash
+systemctl start lxc
+systemctl status lxc # le service est bien actif
+```
+Le service ***lxc*** quant à lui est utilisé pour la gestion et création des conteneurs qui ont étés détaillés _Question 5_.
 
 ### 7- Création d'un conteneur LXC
 #### \[Question 7A\]
+Les deux façons de créer un conteneur localement sous LXC sont :
+* avec privilèges
+* sans privilèges
+
 #### \[Question 7B\]
+Lors de la création d'un conteneur sur une image, cette erreur arrive lorsque l'on arrive pas à se connecter au serveur de clé. En effet, la signature du conteneur n'est pas trouvée en général.
+
 #### \[Question 7C\]
+Un serveur de clé permet la communication entre un serveur et un client souhaitants partager des messages chiffrés. Le serveur reçoit et stocke des clés de chiffrement par leurs propriétaires. Il les distribue par la suite aux programmes les nécessitants. En général, ces clés sont accompagnées d'un certificat.
+Les requêtes effectuées sur ce type de serveur sont faites via HTTP. En revanche, cependant, les serveurs de clé sont à l'écoute sur le port 11371 qui travaille, lui, avec le protocole HKP.
+
 #### \[Question 7D\]
+La première solution serait de vérifier que le proxy côté client n'est pas bloquant quant-au port 11371. On pourrait donc temporairement désactiver le pare-feu. Une autre solution serait de désactiver la vérification la signature lors du téléchargement de la template. 
+
 #### \[Question 7E\]
 #### \[Question 7F\]
 #### \[Question 7G\]
