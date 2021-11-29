@@ -91,10 +91,56 @@ Les requêtes effectuées sur ce type de serveur sont faites via HTTP. En revanc
 La première solution serait de vérifier que le proxy côté client n'est pas bloquant quant-au port 11371. On pourrait donc temporairement désactiver le pare-feu. Une autre solution serait de désactiver la vérification la signature lors du téléchargement de la template. 
 
 #### \[Question 7E\]
+```bash
+lxc-create -t download -n Debian -- --no-validate
+#=========================#
+|   Distribution          |
+|   Name : debian         |
+|   Release : 9           |
+|   Architecture : arm64  |
+#=========================#
+# Non créé sur la machine
+
+```
+
 #### \[Question 7F\]
+```bash
+lxc-create -t download -n centos -- --no-validate
+#=========================#
+|   Distribution          |
+|   Name : centos         |
+|   Release : 7           |
+|   Architecture : i386  |
+#=========================#
+# Créé sur la machine
+```
+
+L'option -n permet de spécifier le nom de l'hôte.
+
 #### \[Question 7G\]
+On lance le conteneur via :
+```bash
+lxc-start centos -d
+```
+Par la suite, on peut vérifier le bon déroulement des opérations via :
+```bash
+lxc-info centos
+```
+![Capture](https://user-images.githubusercontent.com/72377954/143845310-3837a40d-0595-4ff5-9fc9-a128cb31aa85.PNG)
+
+/!\ L'option ***-d*** permet de lancer le conteneur en arrière plan.
+
 #### \[Question 7H\]
+Voici le rôle de chacune des commandes :
+* lxc-info \[nomMachine\] = donne les informations sur un conteneur donné (nom,statut,pid, ip, usage mémoire et processeur...)
+* lxc-execute = exécuter une commande dans un conteneur spécifié par son nom. Permet souvent le lancement rapide d'applications.
+* lxc-attach = effectue la même chose mais sur un conteneur lancé. ***Execute*** doit définir la configuration à utiliser pour la virtualisation contrairement à ***Attach***. 
+* lxc-top = affiche les statistiques du conteneur (usage cpu, mémoire...)
+
+![Capture](https://user-images.githubusercontent.com/72377954/143847027-5baaf654-470a-4a6c-ad13-2c44ac28cb6e.PNG)
+
 #### \[Question 7I\]
+
 #### \[Question 7J\]
 #### \[Question 7K\]
 #### \[Question 7M\]
