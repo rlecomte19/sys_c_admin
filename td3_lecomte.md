@@ -207,28 +207,70 @@ Ils contiendraient aussi des commandes relatives à la configuration basique des
 Les problèmes réseau liés à des IP virtuelles fixes qui ne communiquent qu'avec la VM seraient aussi des configurations utiles à inclure.
 
 ### 8- Création d'un conteneur Docker
+#### Installation de Docker
+Mise à jour des paquets connus du gestionnaire de paquets yum
+```bash
+yum check-update
+```
+Ajout du dépôt des paquets docker dans la configuration de yum
+```bash
+yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+```
+Installation de Docker en lui-même et démarrage du service
+```bash
+yum install docker-ce docker-ce-cli containerd.io
+systemctl start docker # démarrage de docker
+systemctl status docker # vérification du bon fonctionnement
+```
 #### \[Question 8A\]
+Les deux méthodes de création d'un conteneur avec Docker sont
+* en le lançant directement à sa création
+```bash
+docker run –it \[image\] \[SHELL\]
+```
+* sans le lancer directement à sa création
+```bash
+docker container create --name appserver python
+```
 #### \[Question 8B\]
+Cette interface, à l'instar de virbr0 créée par libvirt précédemment, est un pont qui fait la connexion entre les conteneurs et la VM. 
+![Capture](https://user-images.githubusercontent.com/72377954/144140503-7baab3fa-3eec-4c3b-933f-05b9f1cf760e.PNG)
 
 ### 9- Utilisation d'un Dockerfile
 #### \[Question 9A\]
+
 #### \[Question 9B\]
+La directive FROM sert à indiquer l'image parente de celle dans laquelle on est actuellement.
 #### \[Question 9C\]
+La directive COPY permet d'indiquer au DockerFile que l'on souhaite utiliser un fichier annexe.
 #### \[Question 9D\]
 #### \[Question 9E\]
+_ /usr/local/apache2/htdocs/ _ correspond au répertoire par défaut d'Apache. C'est via ce dernier que nous verrons affiché la page d'accueil du serveur.
 #### \[Question 9F\]
 #### \[Question 9G\]
+La commande permettant de lister les images du dépôt local est : 
+```bash
+docker image ls
+```
 #### \[Question 9H\]
 #### \[Question 9I\]
 #### \[Question 9J\]
 #### \[Question 9K\]
 #### \[Question 9M\]
+La commande permettant de connaître l'ip du conteneur est :
+```bash
+docker inspect -f \[id_conteneur\]
+```
+#### \[Question 9N\]
+#### \[Question 9O\]
 
 
 ### 10- Création d'une image personnalisée avec un Dockerfile
 #### \[Question 10A\]
 
 
-### 11- Pour aller plus loin
-### 12- Liens utiles
+Lien utile pour plus tard
+https://www.tecmint.com/install-docker-and-learn-containers-in-centos-rhel-7-6/
 
