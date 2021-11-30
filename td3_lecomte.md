@@ -173,8 +173,9 @@ Retype password : test123
 #### \[Question 7Q\]
 La première façon de se connecter est d'utiliser la commande prévue par lxc, à savoir :
 ```bash
-lxc-attach -n centos
+lxc-attach centos
 ```
+Cela n'est pourtant pas un moyen efficace car on ne se connecte pas avec des droits complets.
 
 On peut aussi utiliser :
 ```bash
@@ -185,11 +186,25 @@ Ceci change le répertoire par défaut du Shell utilisé. Ainsi, on travail dans
 #### \[Question 7R\]
 ```bash
 lxc-attach -n centos
-sh-4.2# ip a 
+sh-4.2# ip a #192.168.122.24
+sh-4.2# exit
+lxc-attach -n centos yum install openssh
+lxc-attach -n centos systemctl start sshd # on démarre le service
+lxc-attach -n centos systemctl enable sshd # on active définitivement le service
+lxc-attach -n centos systemctl status sshd # on vérifie le statut
+ssh root@192.168.122.24 # fonctionnement attendu
 ```
-L'addresse 
+
 #### \[Question 7S\]
+Cela est impossible. En effet, la carte réseau virtuelle qui gère la connexion entre le conteneur et la machine CentOS ne le fait pas avec le reste du réseau. Il serait intéressant de créer un serveur possédant par exemple de l'IP forwarding.
+
 #### \[Question 7T\]
+Si l'on doit gérer de nombreux conteneurs, le problème principal posé serait la configuration. En effet, on ne souhaite pas passer des heures à taper les mêmes commandes et les mêmes installations sur chaque conteneur. IL serait donc intéressant de faire 2 script : 
+* create_container_mysql.sh
+* create_container_apache.sh
+Ces derniers contiendraient des instructions communes telles que la mise à jour des paquets, l'installation des services ssh et/ou d'autres services nécessaires.
+Ils contiendraient aussi des commandes relatives à la configuration basique des différents types de serveur.
+Les problèmes réseau liés à des IP virtuelles fixes qui ne communiquent qu'avec la VM seraient aussi des configurations utiles à inclure.
 
 ### 8- Création d'un conteneur Docker
 #### \[Question 8A\]
