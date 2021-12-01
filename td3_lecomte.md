@@ -320,8 +320,8 @@ docker ps
 ```
 Cette commande affiche les différents conteneurs lancés avec leur PID.
 
-#### \[Question 9K\]
-L'interface d'écoute du conteneur est :
+#### \[Question 9L\]
+Le périphérique d'écoute du conteneur est :
 #### \[Question 9M\]
 La commande permettant de connaître l'ip du conteneur est :
 ```bash
