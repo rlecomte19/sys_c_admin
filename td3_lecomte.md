@@ -240,14 +240,26 @@ Cette interface, à l'instar de virbr0 créée par libvirt précédemment, est u
 
 ### 9- Utilisation d'un Dockerfile
 #### \[Question 9A\]
-
+J'ai commencé par créer un conteneur contenant un service apache configuré de bonne façon avec l'image httpd
+```bash
+docker pull httpd # récupération de l'image
+dnf install httpd -y # téléchargement des services apache
+systemctl start httpd # démarrage du service apache
+systemctl status httpd # vérification
+docker build -t myapachecontainer . # fabrication du conteneur à partir du Dockerfile
+docker run -dit --name myContainer -p 8080:80 myapachecontainer # lancement du conteneur sur la base de sa fabrication précédente
+```
+Le Dockerfile contient :
+> FROM httpd:2.4
+> COPY ./public-html/ /usr/local/apache2/htdocs/
 #### \[Question 9B\]
-La directive FROM sert à indiquer l'image parente de celle dans laquelle on est actuellement.
+La directive FROM sert à indiquer l'image à utilise pour le conteneur venant à être créé.
 #### \[Question 9C\]
-La directive COPY permet d'indiquer au DockerFile que l'on souhaite utiliser un fichier annexe.
+La directive COPY permet d'indiquer au DockerFile que l'on souhaite utiliser le contenu d'un fichier de l'hôte et le copier dans un des dossiers du conteneur.
 #### \[Question 9D\]
+Le fichier /public-html/ correspond au point d'entrée pour apache lié à notre conteneur.
 #### \[Question 9E\]
-_ /usr/local/apache2/htdocs/ _ correspond au répertoire par défaut d'Apache. C'est via ce dernier que nous verrons affiché la page d'accueil du serveur.
+_ /usr/local/apache2/htdocs/ _ correspond au répertoire par défaut d'Apache. C'est via ce dernier que nous verrons affiché la page d'accueil du serveur apache du conteneur.
 #### \[Question 9F\]
 #### \[Question 9G\]
 La commande permettant de lister les images du dépôt local est : 
