@@ -251,7 +251,7 @@ docker run -dit --name myContainer -p 8080:80 myapachecontainer # lancement du c
 ```
 Le Dockerfile contient :
 > FROM httpd:2.4
-> COPY ./public-html/ /usr/local/apache2/htdocs/
+> COPY ./public-html/ /usr/local/apache2/htdocs/public-html
 #### \[Question 9B\]
 La directive FROM sert à indiquer l'image à utilise pour le conteneur venant à être créé.
 #### \[Question 9C\]
@@ -259,25 +259,79 @@ La directive COPY permet d'indiquer au DockerFile que l'on souhaite utiliser le 
 #### \[Question 9D\]
 Le fichier /public-html/ correspond au point d'entrée pour apache lié à notre conteneur.
 #### \[Question 9E\]
-_ /usr/local/apache2/htdocs/ _ correspond au répertoire par défaut d'Apache. C'est via ce dernier que nous verrons affiché la page d'accueil du serveur apache du conteneur.
+_/usr/local/apache2/htdocs/_ correspond au répertoire par défaut d'Apache. C'est via ce dernier que nous verrons affiché la page d'accueil du serveur apache du conteneur.
+Dans le dossier _/public-html/_ on crée le fichier index.php. On y inscrit par la suite :
+```php
+<?php phpinfo(); ?>
+```
+On lance ensuite le conteneur : 
+```bash
+docker exec -it myContainer bash
+```
+On installe ensuite les dépendances
+```bash
+apt-get update
+apt install php libapache2-mod-php php-info
+```
+Finalement on redémarre le service apache :
+```bash
+apachectl restart # lancement
+apachectl status # vérification
+```
+
+Il y a un problème avec le paquet libapache avec l'image httpd. Je n'ai pas réussi à le solutionner dans le temps impartit du TP.
+
 #### \[Question 9F\]
+Pour créer une image avec un tag (un nom) on utilise : 
+```bash
+docker commit myContainer apachy # docker commit [conteneurCile] [tag]
+```
 #### \[Question 9G\]
 La commande permettant de lister les images du dépôt local est : 
 ```bash
 docker image ls
 ```
 #### \[Question 9H\]
+Mon dépôt local contient : 
+* httpd
+* hello-world
+* apachy
+
 #### \[Question 9I\]
+Afin de supprimer une image on utilise la commande : 
+```bash
+docker rmi [image]
+```
 #### \[Question 9J\]
+Afin de démarrer le conteneur on utilise  :
+```bash
+docker run apachy
+```
+Ci-dessous la liste des différentes options : 
+* -it : lance une console interactive du conteneur
+* --name : indique le nom que le souhaite donner au conteneur
+* -p (publish) : détermine un port d'écoute pour le conteneur
+* -d : lance le conteneur en arrière plan et affiche son PID
+
 #### \[Question 9K\]
+On peut vérifier que le conteneur est lancé avec la commande 
+```bash
+docker ps
+```
+Cette commande affiche les différents conteneurs lancés avec leur PID.
+
+#### \[Question 9K\]
+L'interface d'écoute du conteneur est :
 #### \[Question 9M\]
 La commande permettant de connaître l'ip du conteneur est :
 ```bash
 docker inspect -f \[id_conteneur\]
 ```
 #### \[Question 9N\]
-#### \[Question 9O\]
+Ayant mis mon conteneur à l'écoute sur le port 8080, en utilisant l'url ***10.30.111.65:8080*** j'ai bien accès à ce dernier. Cependant, selon l'énoncé du TP, cela ne devrait pas marcher car aucune écoute n'est mise en place.
 
+#### \[Question 9O\]
+Les deux fichiers sont les mêmes. Nous avons en effet mis en place une sorte de redondance entre la VM et le conteneur dans le fichier public-html.
 
 ### 10- Création d'une image personnalisée avec un Dockerfile
 #### \[Question 10A\]
