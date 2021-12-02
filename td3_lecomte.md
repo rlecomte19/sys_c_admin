@@ -321,7 +321,7 @@ docker ps
 Cette commande affiche les différents conteneurs lancés avec leur PID.
 
 #### \[Question 9L\]
-Le périphérique d'écoute du conteneur est :
+Le périphérique d'écoute du conteneur est veth100aw4. Ce dernier est, à l'instar de celui que nous avions pour lxc, un pont correspondant à une interface virtuelle pour le conteneur.
 #### \[Question 9M\]
 La commande permettant de connaître l'ip du conteneur est :
 ```bash
@@ -334,9 +334,44 @@ Ayant mis mon conteneur à l'écoute sur le port 8080, en utilisant l'url ***10.
 Les deux fichiers sont les mêmes. Nous avons en effet mis en place une sorte de redondance entre la VM et le conteneur dans le fichier public-html.
 
 ### 10- Création d'une image personnalisée avec un Dockerfile
+La commande RUN dans un dockerfile permet de lancer une commande dans le conteneur avant qu'il ne soit lancé (en général des M.A.J..). 
 #### \[Question 10A\]
+Tout d'abord on crée l'image à partir d'un Dockerfile complet : 
+![dockerfile](https://user-images.githubusercontent.com/72377954/144480532-0ae4efee-0340-431c-bd0e-c8799f39af23.PNG)
 
+Ce dernier contient les directives pour créer un fichier d'accès au dossier apache, la mise à jour des paquets dnf, l'installation des paquets apache et php ainsi que la mise en écoute du port 80. 
 
-Lien utile pour plus tard
-https://www.tecmint.com/install-docker-and-learn-containers-in-centos-rhel-7-6/
+On crée par la suite l'image : 
+```bash
+docker build -i web /var/www/html/public-html
+```
+On peut désormais créer et lancer le conteneur avec :
+```bash
+docker run -itd -p 8080:80 --name web --privileged web:latest /usr/sbin/init
+```
+On lance ici le conteneur en tant que démon (avec une console virtuelle cachée par ailleurs). Aussi, on le nomme "web". On lui indique qu'il doit fonctionner en tant que conteneur privilégié afin d'avoir accès au systemd (je n'ai pas compris pourquoi...). 
 
+On crée par la suite un fichier _index.php_ dans le conteneur avec la commande ***phpinfo()*** dans le dossier _/var/www/html_.
+
+```bash
+docker exec -it web bash # on lance le conteneur avec le SHELL Bash
+systemctl start httpd
+cd /var/www/html
+touch index.php
+```
+***Fichier index.php***
+```php
+<?php phpinfo(); ?>
+```
+
+Afin de vérifier que l'image est lancée on utilise : 
+```bash
+docker ps
+```
+Afin de vérifier que le serveur apache marche bien 
+```bash
+systemctl status httpd # active
+```
+On peut désormais vérifier à nouveau le bon fonctionnement d'apache et du moteur php en allant sur le port 8080 de l'ip de la VM (10.30.111.65). 
+La page construite avec phpinfo() s'affiche bien. Tout est donc fonctionnel.
+[2021-12-02 19_30_04-PHP 8 0 13 - phpinfo()](https://user-images.githubusercontent.com/72377954/144482198-0873ae57-f2d7-4236-b3bd-cdc30300109e.png)
