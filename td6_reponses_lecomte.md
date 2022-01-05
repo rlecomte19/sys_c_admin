@@ -39,12 +39,15 @@ int main(){
 
 ## II - Le système de fichiers _/proc_
 ### [Question - 2A]
-
+Les répertoires nommés par des numéros correspondent à des PDI, donc des identifiants de processus actuellement en train de tourner.
 ### [Question - 2B]
-
+Le fichier _cmdline_ correspond à la commande effectuée dans un invite de commande permettant de lancer le processus ayant pour PID le numéro du répertoire dans ***/proc***. Si le processus est un zombie, _cmdline_ ne contiendra rien et retournera seulement un 0. Il est bon de noter que ce fichier est en lecture simple. 
 ### [Question - 2C]
+***/proc/\[pid\]/cwd*** est un lien symbolique vers le répertoire courant où le processus est en exécution. 
 ### [Question - 2D]
+***/proc/\[pid\]/exe*** est un lien symbolique vers le chemin de l'exécutable de la commande lançant ce processus.
 ### [Question - 2E]
+
 ### [Question - 2F]
 ### [Question - 2G]
 
