@@ -47,14 +47,23 @@ Le fichier _cmdline_ correspond à la commande effectuée dans un invite de comm
 ### [Question - 2D]
 ***/proc/\[pid\]/exe*** est un lien symbolique vers le chemin de l'exécutable de la commande lançant ce processus.
 ### [Question - 2E]
-
+***/proc/\[pid\]/root*** est un lien symoblique vers le répertoire racine d'exécution du processus. Il se comporte par la suite comme un exécutable cité en question ***2E***.
 ### [Question - 2F]
+***/proc/devices*** correspond à la liste des groupes de périphériques et des numéros majeurs.
 ### [Question - 2G]
-
+Proc est en soit un système de fichiers spécifique, assez unique. Le répertoire ***/proc/self*** correspond en fait au processus qui appelle ce système de fichiers.
 
 ## III - Test de permission d'accès à un fichier
 
 ## IV - Verrous et opérations sur les fichiers
+### [Question - 4A]
+Nous pouvons avoir besoin de vérouiller un fichier pour plusieurs raisons. La majeur partie de ces raisons concerne l'intégrité des données ou informations que contiennent ces fichiers. 
+Nous pouvons notamment citer les raisons suivantes : 
+* un fichier peut être endommagé si deux processus font des manipulations en même temps
+* un fichier peut renvoyer des données endommagées à un processus A essayant de le lire tandis qu'un processus B le manipule
+* éviter l'accès non autorisé à un fichier / gérer un fichier privé
+
+### [Question - 4B]
 
 ## V - Buffers (mémoire tampon)
 
