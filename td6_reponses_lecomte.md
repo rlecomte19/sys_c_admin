@@ -121,3 +121,29 @@ int main()
 ## VIII - Fichiers séquentiels et fichiers à accès direct 
 
 ## IX - Sauvegarde d'une structure
+
+void ex6(){
+	DIR *dir;
+	int totalFileSize = 0;
+	struct stat fileStat;
+	struct dirent *dirp;
+
+	if((dir = opendir(".")) == NULL){
+		printf("\nLe répertoire n'a pas pu être ouvert !");
+		exit(2);
+	}
+
+	int currentSize = 0;
+	
+	while((dirp = readdir(dir)) != NULL){
+		stat(dirp->d_name, &fileStat);
+		totalFileSize += fileStat.st_blocks * 512;
+		printf("Taille fichier %s : %ld\n", dirp->d_name, fileStat.;
+	}
+
+	if(closedir(dir) == -1){
+		printf("\nAttention, le répertoire n'a pas pu être correctement fermé ! ");
+	}
+
+
+}
