@@ -64,7 +64,54 @@ Nous pouvons notamment citer les raisons suivantes :
 * éviter l'accès non autorisé à un fichier / gérer un fichier privé
 
 ### [Question - 4B]
+> Vous trouverez ci-dessous le code créé
 
+On commence par déclarer :
+* un tableau (considéré comme buffer) qui accueillera les différentes valeurs à enregistrer dans un fichier binaire
+* une structure de type ***flock*** qui constituera notre vérou
+* un descripteur de fichier pointant vers le fichier binaire souhaité en écriture seule
+
+Par la suite, on initialise les différents attributs de notre vérou (notamment son type en écriture seule).
+
+Ensuite, on génère les valeurs aléatoires que nous enregistrons dans le buffer. 
+
+Finalement, on vérouille le fichier souhaité puis on y inscrit les valeurs du buffer. 
+
+```c
+#define NB_RANDOMS 10
+
+int main()
+{
+	struct flock myLock;
+	int randomData[NB_RANDOMS];
+	int towrite_file_descriptor = 0;
+	
+	// Opening the desired binary file
+	towrite_file_descriptor = open("/home/student/td6_sysadmin/test.bin", O_WRONLY); 
+	
+	// Initializes flock struct attributes
+	myLock.l_type = F_WRLCK;
+	myLock.l_whence = SEEK_SET; 
+	myLock.l_len = 0;
+	myLock.l_start = 0;
+
+	// Generates random values between 0 & 100 into our array
+	for(int i=0;i<NB_RANDOMS;i++){
+		randomData[i] = (rand() % 101);
+	}
+
+	// Locking file
+	fcntl(towrite_file_descriptor, F_SETLKW, &myLock);
+
+	// Writes our array values into a file 
+	write(towrite_file_descriptor, randomData, sizeof(int)*NB_RANDOMS);
+	
+	// Waiting for a return to ensure the program is not closing 
+	printf("\n Appuyer sur la touche \"Entrée\" pour continuer...");
+	getchar();
+	return (0);
+}
+```
 ## V - Buffers (mémoire tampon)
 
 ## VI - Parcours d'un répertoire
