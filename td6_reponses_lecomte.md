@@ -116,6 +116,38 @@ int main()
 
 ## VI - Parcours d'un répertoire
 
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/dir.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+int main() {
+	DIR *dir; 
+	struct stat fileStat; 
+	struct dirent *dirp;
+	int totalFileSize = 0; 
+
+	if((dir = opendir(".")) == NULL){
+		printf("\nLe répertoire n'a pas pu être ouvert !");
+		exit(2);
+	}
+
+	while((dirp = readdir(dir)) != NULL){
+		stat(dirp->d_name, &fileStat);
+		totalFileSize += (int) fileStat.st_blocks * 512;
+	}
+
+	if(closedir(dir) == -1){
+		printf("\nAttention, le répertoire n'a pas pu être correctement fermé ! ");
+	}
+
+	printf("La taille totale des fichiers du répertoire courant est de %d octets", totalFileSize);
+
+}
+```
 ## VII - Descripteurs de fichiers et fichiers binaires
 
 ## VIII - Fichiers séquentiels et fichiers à accès direct 
