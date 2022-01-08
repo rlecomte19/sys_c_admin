@@ -115,13 +115,26 @@ int main()
 ## V - Buffers (mémoire tampon)
 
 ## VI - Parcours d'un répertoire
+> Le code correspondant se trouve en fin d'exercice
 
+On commence ici par déclarer trois variables importantes : 
+* \*dir : le répertoire que l'on veut parcourir 
+* \*dirp : contiendra les fichiers de ce répertoire
+* stat : les statistiques système de ce fichier
+
+On ouvre ensuite le répertoire souhaité (dans cet exercice, le répertoire courant).
+
+Par la suite, on boucle sur ce répertoire afin d'obtenir un par un tous les fichiers dans la variable dirp.
+
+On récupère ensuite la taille du fichier courant que l'on ajoute à une variable qui contient la sommes des tailles. 
+
+Finalement, on ferme le fichier puis on affiche le total des tailles des fichiers du répertoire courant.
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/dir.h>
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stat.h>D
 #include <unistd.h>
 
 int main() {
@@ -129,17 +142,21 @@ int main() {
 	struct stat fileStat; 
 	struct dirent *dirp;
 	int totalFileSize = 0; 
-
+	
+	// Verify file opening
 	if((dir = opendir(".")) == NULL){
 		printf("\nLe répertoire n'a pas pu être ouvert !");
 		exit(2);
 	}
-
+	
+	// Retrieve stats of each file contained in directory
 	while((dirp = readdir(dir)) != NULL){
 		stat(dirp->d_name, &fileStat);
+		// Sum of every file size
 		totalFileSize += (int) fileStat.st_blocks * 512;
 	}
 
+	// Verify directory closing
 	if(closedir(dir) == -1){
 		printf("\nAttention, le répertoire n'a pas pu être correctement fermé ! ");
 	}
@@ -153,29 +170,3 @@ int main() {
 ## VIII - Fichiers séquentiels et fichiers à accès direct 
 
 ## IX - Sauvegarde d'une structure
-
-void ex6(){
-	DIR *dir;
-	int totalFileSize = 0;
-	struct stat fileStat;
-	struct dirent *dirp;
-
-	if((dir = opendir(".")) == NULL){
-		printf("\nLe répertoire n'a pas pu être ouvert !");
-		exit(2);
-	}
-
-	int currentSize = 0;
-	
-	while((dirp = readdir(dir)) != NULL){
-		stat(dirp->d_name, &fileStat);
-		totalFileSize += fileStat.st_blocks * 512;
-		printf("Taille fichier %s : %ld\n", dirp->d_name, fileStat.;
-	}
-
-	if(closedir(dir) == -1){
-		printf("\nAttention, le répertoire n'a pas pu être correctement fermé ! ");
-	}
-
-
-}
