@@ -166,6 +166,83 @@ int main() {
 }
 ```
 ## VII - Descripteurs de fichiers et fichiers binaires
+### [Question - 7A]
+Le paramètre "flags" permet de définir le mode d'ouverture du fichier souhaité. 
+Le site https://www.gladir.com/CODER/CLINUX/open.htm fournit une très bonne explication de chacune des valeurs possibles :
+
+![flags_open()](https://user-images.githubusercontent.com/72377954/148653880-67bb8799-5efc-433f-bb2f-bb4727b9f78a.png)
+
+### [Question - 7B]
+Le paramètre "mode" sert à indiquer les permissions que possède l'utilisateur sur le fichier (correspondant à des permissions Linux).
+
+### [Question - 7C]
+```c
+int main(){
+	// Opening test.bin file with write only (and creating it if not existing already)
+	int file_descriptor = open("test.bin", O_WRONLY | O_CREAT);
+	
+	// Initializing the bytes to write and retrieving the size occupated
+	char *bytesToWrite = "19496893802562113L";
+	int written_bytes = (int) sizeof(char) * strlen(bytesToWrite);
+
+	// Writing caracters into the file according to the size retrieved
+	write(file_descriptor, bytesToWrite, written_bytes);
+
+	// Closing file descriptor
+	close(file_descriptor);
+	
+	return 0;
+}
+```
+
+Le fichier binaire ainsi créé contient bien la chaîne de caractères donnée comme buffer.
+
+### [Question - 7D]
+```c
+int main(){
+	// Opening and creating file if it does not exist
+	int file_descriptor = open("testhexa.bin", O_WRONLY | O_CREAT);
+	
+	// Initializing buffer for writing
+	char *writeBuffer = "0x4142434451525354L";
+
+	// Retrieving size of bytes to write
+	int written_bytes = (int) sizeof(char) * strlen(writeBuffer);
+	
+	// Declaring reading buffer
+	char *readBuffer = malloc(written_bytes);
+
+	// Writing bytes into file thanks to writing buffer
+	write(file_descriptor, writeBuffer, written_bytes);
+	
+	// Retrieving bytes from file into reading buffer
+	read(file_descriptor, readBuffer, written_bytes);
+	
+	// Displaying buffer as an Integer
+	printf("Entier : %d \n", readBuffer);
+	
+	// Displaying buffer as an Hexadecimal
+	printf("Hexadécimal : %0x \n", readBuffer);
+	
+	close(file_descriptor);
+}
+```
+***Figure 1*** : Sortie du programme
+ 
+![7D](https://user-images.githubusercontent.com/72377954/148656203-241f04e0-a66a-4ef2-9eab-61dcd08a25a7.PNG)
+
+***Figure 2 *** : Contenance du fichier testhexa.bin créé : 
+
+![testhexax](https://user-images.githubusercontent.com/72377954/148656206-1423d357-35ac-459e-a479-a6563f5e12be.PNG)
+
+Ici le fichier contient donc l'adresse vers la chaîne de caractères écrite. Il est bon de noter que cette dernière est contenue dans un buffer. 
+
+### [Question - 7E]
+
+### [Question - 7F]
+### [Question - 7G]
+### [Question - 7H]
+### [Question - 7I]
 
 ## VIII - Fichiers séquentiels et fichiers à accès direct 
 
