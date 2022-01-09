@@ -247,3 +247,141 @@ Ici le fichier contient donc l'adresse vers la chaîne de caractères écrite. I
 ## VIII - Fichiers séquentiels et fichiers à accès direct 
 
 ## IX - Sauvegarde d'une structure
+On comprendra pour cet exercice un fichier exercice9.h qui contiendra : 
+```c
+#include <stdlib.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <string.h>
+#include <unistd.h>
+typedef struct{
+    char nom[20];
+    int age;
+    float taille;
+} Personne;
+
+void ex9();
+void fillPersonnes(Personne *personnes);
+void displayPersonnes(const Personne *personnes);
+void writePersonnes(const Personne *buffer);
+void readPersonnes(Personne *buffer);
+
+```
+### [Question - 9A]
+On crée une fonction qui créera les différentes personnes : 
+```c
+void fillPersonnes(Personne *personnes){
+	Personne p1 = {"Pierre", 20, 172.5f};
+	Personne p2 = {"Paul", 24, 176.7f};
+	Personne p3 = {"Jacques", 21, 168.4f};
+	Personne p4= {"Georges", 27, 192.2f};
+
+	personnes[0] = p1;
+	personnes[1] = p2;
+	personnes[2] = p3;
+	personnes[3] = p4;
+}
+```
+Le main contient donc : 
+```c
+int main(){
+	Personne personnes[4];
+    	fillPersonnes(personnes);
+}
+```
+### [Question - 9B]
+Ici, il suffit de boucler autant de fois qu'il y a d'éléments dans le tableau de Personne et d'afficher les différents éléments : 
+```c
+void displayPersonnes(const Personne *personnes){
+	for (int i = 0; i < 4; i++)
+	{
+		printf("[Personne %d] - %s | Âge : %d | Taille : %0.1f \n", i, personnes[i].nom, personnes[i].age, personnes[i].taille);
+	}
+}
+```
+Le main contient à ce point : 
+```c
+int main(){
+    Personne personnes[4];
+    // Fill in Personne array
+    fillPersonnes(personnes);
+    printf("Personnes enregistrées : \n");
+    // Display every element of the array
+    displayPersonnes(personnes);
+}
+```
+### [Question - 9C]
+On ouvre pour cela un fichier dans lequel on écrira le tableau de structure Personne :
+```c
+void writePersonnes(const Personne *personnes){
+	// Opening file
+	FILE *file = fopen("structures.bin", "w");
+
+	if(file == NULL){
+		printf("ERREUR OUVERTURE FICHIER\n\n");
+	}else{
+		printf("\nFichier ouvert.....\n");
+		// Writing data in file
+		fwrite(personnes, sizeof(Personne), 4, file);
+	}
+	// Closing file
+	fclose(file);
+}
+```
+Le main contient à ce point : 
+```c
+int main(){
+    Personne personnes[4];
+    // Fill in Personne array
+    fillPersonnes(personnes);
+    printf("Personnes enregistrées : \n");
+    // Display every element of the array
+    displayPersonnes(personnes);
+    // Writing every Personne in a binary file
+    writePersonnes(personnes);
+}
+```
+### [Question - 9D & 9E]
+Lorsque l'on lit dans le fichier précédemment créé on enregistre les données dans le buffer et on les affiche au fur et à mesure : 
+```c
+void readPersonnes(Personne *buffer){
+   	FILE *file = fopen("structures.bin", "r");
+
+    	if(file == NULL){ printf("ERREUR OUVERTURE FICHIER LECTURE \n"); }
+
+    	int nbPersonnes = 0;
+    	printf("\nRécupération des personnes via fichier binaire. . . . \n");
+    
+    	// Reading one Personne by one and registering it into the buffer (here it is our array of Personne)
+	while(fread(&buffer[nbPersonnes], sizeof(Personne), 1, file)){
+		// Displaying every data from the Personne read
+        	printf("\n[Personne %d] - %s | Âge : %d | Taille %0.1f\n",
+			nbPersonnes,
+			buffer[nbPersonnes].nom,
+			buffer[nbPersonnes].age,
+			buffer[nbPersonnes].taille
+                );
+    	    	nbPersonnes++;
+	}
+	// Closing file
+	fclose(file);
+}
+```
+Le main final contient donc : 
+```c
+int main(){
+    Personne personnes[4];
+    fillPersonnes(personnes);
+    printf("Personnes enregistrées : \n");
+    displayPersonnes(personnes);
+    writePersonnes(personnes);
+
+    Personne bufferPersonnes[4];
+
+    readPersonnes(bufferPersonnes);
+    return 0;
+}
+```
+
+### [Question - 9F]
+
