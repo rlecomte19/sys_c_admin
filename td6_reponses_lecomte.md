@@ -237,15 +237,34 @@ int main(){
 
 Ici le fichier contient donc l'adresse vers la chaîne de caractères écrite. Il est bon de noter que cette dernière est contenue dans un buffer. 
 
-### [Question - 7E]
-
-### [Question - 7F]
-### [Question - 7G]
-### [Question - 7H]
-### [Question - 7I]
-
 ## VIII - Fichiers séquentiels et fichiers à accès direct 
+> à faire
 
+```c
+int main(){
+    int file_descriptor = open("position.bin", O_WRONLY | O_CREAT);
+    int firstNb = 10;
+    for(int i=0;i<20;i++){
+        write(file_descriptor, &firstNb, sizeof(int));
+        firstNb++;
+    }
+
+    close(file_descriptor);
+
+    int read_descriptor = open("position.bin", O_RDONLY);
+    int toRead[30];
+    lseek(read_descriptor, 0L, SEEK_SET);
+    int ctr = 0;
+    while(read(file_descriptor, toRead, sizeof(int))){
+        printf("\nLu : [%d]\n", toRead[ctr]);
+        lseek(read_descriptor, 3, SEEK_CUR);
+        ctr++;
+    }
+
+
+    close(read_descriptor);
+}
+```
 ## IX - Sauvegarde d'une structure
 On comprendra pour cet exercice un fichier exercice9.h qui contiendra : 
 ```c
@@ -383,5 +402,4 @@ int main(){
 }
 ```
 
-### [Question - 9F]
 
